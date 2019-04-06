@@ -1,0 +1,1 @@
+# redux-ajax-get
