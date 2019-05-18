@@ -16,7 +16,7 @@ export default function (url, constant, params){
     return (dispatch, getStore) => {
         dispatch({type:key+'REQ', payload:{params:params}});
 
-        $.post(url, params, (r) => {
+        $.get(url, params, (r) => {
             if(r.status === 'ok'){
                 dispatch({type:key+'DONE', payload:{params:params, response:r}});
             }else{

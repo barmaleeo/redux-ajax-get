@@ -20,7 +20,7 @@ export default function (url, constant, params) {
         params: params
       }
     });
-    $.get(url, params, r => {
+    $.post(url, params, r => {
       if (r.status === 'ok') {
         dispatch({
           type: key + 'DONE',
