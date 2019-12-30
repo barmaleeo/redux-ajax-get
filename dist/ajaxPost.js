@@ -1,6 +1,13 @@
-export default function (url, constant, params) {
-  const tokens = constant.split('_');
-  let key = '';
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = _default;
+
+function _default(url, constant, params) {
+  var tokens = constant.split('_');
+  var key = '';
 
   if (tokens.length === 0) {
     console.error('Undefined token');
@@ -8,19 +15,19 @@ export default function (url, constant, params) {
   } else if (tokens.length === 1) {
     key = tokens[0];
   } else {
-    for (let i = 0; i < tokens.length - 1; i++) {
+    for (var i = 0; i < tokens.length - 1; i++) {
       key += tokens[i] + '_';
     }
   }
 
-  return (dispatch, getStore) => {
+  return function (dispatch, getStore) {
     dispatch({
       type: key + 'REQ',
       payload: {
         params: params
       }
     });
-    $.post(url, params, r => {
+    $.post(url, params, function (r) {
       if (r.status === 'ok') {
         dispatch({
           type: key + 'DONE',
@@ -38,7 +45,7 @@ export default function (url, constant, params) {
           }
         });
       }
-    }, 'json').fail(e => {
+    }, 'json').fail(function (e) {
       console.error(url, key, e);
       dispatch({
         type: key + 'ERR',
