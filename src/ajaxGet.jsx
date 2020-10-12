@@ -1,6 +1,6 @@
 
 
-export default function (url, constant, params){
+export default function (url, constant, params, internal){
     const tokens = constant.split('_');
     let key = '';
     if(tokens.length === 0){
@@ -14,18 +14,18 @@ export default function (url, constant, params){
         }
     }
     return (dispatch, getStore) => {
-        dispatch({type:key+'REQ', payload:{params:params}});
+        dispatch({type:key+'REQ', payload:{params:params, internal: internal ? internal : {}}});
 
         $.get(url, params, (r) => {
             if(r.status === 'ok'){
-                dispatch({type:key+'DONE', payload:{params:params, response:r}});
+                dispatch({type:key+'DONE', payload:{params:params, response:r, internal: internal ? internal : {}}});
             }else{
-                dispatch({type:key+'ERR', payload:{params:params, response:r.msg?r.msg:r}});
+                dispatch({type:key+'ERR', payload:{params:params, response:r.msg?r.msg:r, internal: internal ? internal : {}}});
             }
         }, 'json')
             .fail((e) => {
                 console.error(url, key, e);
-                dispatch({type:key+'ERR', payload:{params:params, response:e.responseText}});
+                dispatch({type:key+'ERR', payload:{params:params, response:e.responseText, internal: internal ? internal : {}}});
             });
     };
 }

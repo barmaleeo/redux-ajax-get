@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = _default;
 
-function _default(url, constant, params) {
+function _default(url, constant, params, internal) {
   var tokens = constant.split('_');
   var key = '';
 
@@ -24,7 +24,8 @@ function _default(url, constant, params) {
     dispatch({
       type: key + 'REQ',
       payload: {
-        params: params
+        params: params,
+        internal: internal ? internal : {}
       }
     });
     $.post(url, params, function (r) {
@@ -33,7 +34,8 @@ function _default(url, constant, params) {
           type: key + 'DONE',
           payload: {
             params: params,
-            response: r
+            response: r,
+            internal: internal ? internal : {}
           }
         });
       } else {
@@ -41,7 +43,8 @@ function _default(url, constant, params) {
           type: key + 'ERR',
           payload: {
             params: params,
-            response: r.msg ? r.msg : r
+            response: r.msg ? r.msg : r,
+            internal: internal ? internal : {}
           }
         });
       }
@@ -51,7 +54,8 @@ function _default(url, constant, params) {
         type: key + 'ERR',
         payload: {
           params: params,
-          response: e.responseText
+          response: e.responseText,
+          internal: internal ? internal : {}
         }
       });
     });
